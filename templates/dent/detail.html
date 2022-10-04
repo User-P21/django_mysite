@@ -1,0 +1,24 @@
+{% extends 'dent/main.html' %}
+{% block content %}
+<div class="container container-relative">
+    <h2> Appointment: {{ appointment.id }}</h2>
+        {% if message %}
+            <p>{{ message }}</p>
+        {% endif %}
+    <ul>
+        <li> First name: {{ appointment.patient.fname }}</li>
+        <li> Last name: {{ appointment.patient.sname }}</li>
+        <li> Insurance company: {{ appointment.patient.insurance_c }}</li>
+        <li> Email: {{ appointment.patient.email }}</li>
+        <li> Doctor: {{ appointment.doctor }}</li>
+        <li> Date: {{ appointment.date }}</li>
+        <li> Time: {{ appointment.time }}</li>
+        <li> Extra notes: {{ appointment.notes}}</li>
+    </ul>
+    <a href = "{% url 'dent:updateregview' appointment.id %}"><button type = 'button' class="submit">Update</button></a>
+    <a href = "{% url 'dent:deleteregistration' appointment.id %}"><button type = 'button' class="delete">Delete</button></a>
+    {% if request.user.is_staff %}
+        <a href = "{{ request.META.HTTP_REFERER }}"><button type = 'button' class="return">Return</button></a>
+    {% endif %}
+</div>
+{% endblock %}

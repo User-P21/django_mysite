@@ -1,0 +1,57 @@
+{% extends 'dent/main.html' %}
+{% block content %}
+<h2 class = "headline2">List of Patients</h2>
+{% if appointments %}
+<form method = 'GET' class="filter">
+    Last name:{{ appointfilter.form.patient }}
+    Date:{{ appointfilter.form.date }}
+    Doctor:{{ appointfilter.form.doctor_char }}
+    <button type ='submit' class="submit paddmarg0">Search</button>
+    <button type="button" class="return paddmarg0" onclick="ClearFields();">Clear</button>
+</form>
+<table class= "patients_table">
+    <tr class="first_row">
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Phone number</th>
+        <th>email</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Doctor </th>
+        <th>Detail</th> 
+    </tr>         
+    {% for appointment in appointments %}
+        <tr>
+            <td>{{ appointment.patient.fname }}</td>
+            <td>{{ appointment.patient.sname }}</td>
+            <td>{{ appointment.patient.cell_phone_num }}</td>
+            <td>{{ appointment.patient.email }}</td>
+            <td>{{ appointment.date }}</td>
+            <td>{{ appointment.time }}</td>
+            <td>{{ appointment.doctor }}</td> 
+            <td><a href = "{% url 'dent:detail' appointment.id %}">Detail</a></td>  
+        </tr>
+    {% endfor %}   
+</table>
+{% else %}
+<form method = 'GET' class="filter">
+    Last name:{{ appointfilter.form.patient }}
+    Date:{{ appointfilter.form.date }}
+    Doctor:{{ appointfilter.form.doctor_char }}
+    <button type ='submit' class="submit paddmarg0">Search</button>
+    <button type="button" class="return paddmarg0" onclick="ClearFields();">Clear</button>
+</form>
+<table class= "patients_table">
+    <tr class="first_row">
+        <th>First name</th>
+        <th>Last name</th>
+        <th>Phone number</th>
+        <th>email</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Doctor </th>
+        <th>Detail</th> 
+    </tr>  
+</table>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'dent/main.html' %}
+{% load static %}
+{% block content %}
+<div class="detail">
+    <h2 class="detail-item1"> {{ employee.title }}.{{ employee.fname }} {{ employee.sname }}</h2>
+    <img src = "{{ employee.profile_pic.url }}" width ="450" height = "450" class="detail-item2">
+    <div class="detail-item3">{{ employee.about }}</div>
+    {% if request.user.is_staff  %}
+        <a class="detail-item4" href = "{% url 'dent:staffprofile' employee.id %}"><button type = 'button' class="submit" >Update</button></a>
+    {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'dent/main.html' %}
+{% load static %}
+{% block content %}
+
+<div class = "container container-middle">
+    <form method="POST" action="">
+        {% csrf_token %}
+        {{ user.username.label }} 
+        {{ user.username }}
+        {{ user.email.label }}
+        {{ user.email }}
+        {{ user.password1.label }} 
+        {{ user.password1 }} 
+        {{ user.password2.label }} 
+        {{ user.password2 }} 
+        <p hidden> {{ user.is_staff }} </p>
+        <button class="submit" type = 'submit'>Register</button>
+    </form>
+</div>
+{% endblock %}
+            
+            
+            
+            

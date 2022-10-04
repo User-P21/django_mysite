@@ -1,0 +1,45 @@
+{% extends 'dent/main.html' %}
+{% load static %}
+{% block content %}
+<div class="container container-middle">
+    <form method = 'POST' action = "">
+        {% csrf_token %}
+        <div hidden>
+            {{ updatepatform.user }}
+        </div>
+        First name {{ updatepatform.fname }}
+        Last name {{ updatepatform.sname }}
+        Insurance {{ updatepatform.insurance_c }}
+        Phone number {{ updatepatform.cell_phone_num }}
+        Email {{ updatepatform.email }}
+        <div hidden>
+            {{ updateappform.patient}}
+        </div>
+        Doctor {{ updateappform.doctor }}
+        Date {{ updateappform.date}}
+        Time {{ updateappform.time }}
+        Notes {{ updateappform.notes }}
+        <input type = 'submit' value = 'Update' class="submit">
+        <input type = 'button' class="return"
+                onclick="location.href='http://127.0.0.1:8000/'; return false;"
+                value = 'Escape'>
+    </form>
+</div>
+{% endblock %}
+        
+        
+        
+        
+       
+        
+        
+        
+            
+        
+            
+        
+
+
+
+
+

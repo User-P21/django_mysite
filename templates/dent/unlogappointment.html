@@ -1,0 +1,75 @@
+{% extends 'dent/main.html' %}
+{% block content %}
+<h2>Create an Appointment</h2>
+<div class="container container-left container-opacity">
+    <h2> Personal Information </h2>
+    <form method = 'post' action = ''>
+        {% csrf_token %}
+
+        <label for="fname">First name</label>
+        {{ patientform.fname }}
+
+        <label for="sname">Last name</label>
+        {{ patientform.sname }}
+
+        <label for="insurance_c">Insurance</label>
+        {{ patientform.insurance_c }}
+
+        <label for="cell_phone_num">Phone number</label>
+        {{ patientform.cell_phone_num}}
+
+        <label for="email">Email</label>
+        {{ patientform.email }}
+
+      
+    </form>
+</div>
+<div class="container container-middle">
+    <h2> Appointment form </h2>
+    <form method = 'post' action = ''>
+        {% csrf_token %}
+        
+        <p hidden>{{ appointform.patient }}</p>
+
+        <label for="doctor">Doctor</label>
+        {{ appointform.doctor }}
+
+        <label for="date">Date</label>
+        {{ appointform.date }}
+
+        <label for="time">Time</label>
+        {{ appointform.time }}
+
+        <label for="notes">Notes</label>
+        {{ appointform.notes }}
+
+        <button class="submit" type = 'submit'>Submit</button>
+        <a href = "{% url 'dent:unlogpatient' %}">
+            <button type = 'button' class="return">Back</button>
+        </a>
+    </form>
+</div>
+<div class = 'container container-right'>
+    <form method = 'GET'>
+        <label for="doctor">Doctor</label>
+        {{ appointfilter.form.doctor }}
+        <label for="exact-date">Date</label>
+        {{ appointfilter.form.exact_date }}
+        <button type ="submit" class="submit">Search</button>
+    </form>
+    <table>
+        <tr>
+            <th>Doctor</th>
+            <th>Date</th>
+            <th>Time</th>
+        </tr>
+        {% for appointment in appointments %}
+        <tr>
+            <td>{{ appointment.doctor }}</td> 
+            <td>{{ appointment.date }}</td>
+            <td>{{ appointment.time }}</td>  
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

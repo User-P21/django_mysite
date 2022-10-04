@@ -1,0 +1,88 @@
+{% extends 'dent/main.html' %}
+{% load static %}
+{% block content %}
+<div class ='appoint-container'>
+    <div class = 'appoint-item1'>
+        <div class="header-of-card">
+            <h2> Patient {{ request.user }}</h2>
+        </div>
+        <div class="card-item">
+            Name:{{ logpatient.fname }} {{ logpatient.sname }}
+        </div>
+        <div class="card-item">
+            Insurance:{{ logpatient.insurance_c }}
+        </div>
+        <div class="card-item">
+            Phone number:{{ logpatient.cell_phone_num }}
+        </div>
+        <div class="card-item">
+            Email:{{ logpatient.email }}
+        </div>
+        <div>
+            <a href = "{% url 'dent:logpatient' request.user.patient.id %}"><button type='button' class="submit">Update</button></a>
+        </div>
+        <h2 class="h2-margin-top">{{ logpatient.fname }}`s appointments</h2>
+        <table class="patients_table">
+            <tr>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Detail</th>
+            </tr>
+            {% if patientappoints %}
+                {% for appoint in patientappoints %}
+                    <tr>
+                        <td>{{ appoint.doctor }}</td>
+                        <td>{{ appoint.date }}</td>
+                        <td>{{ appoint.time }} </td>
+                        <td><a href = "{% url 'dent:detail' appoint.id %}">Detail</a></td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            {% if patientappoint %}
+            <tr>
+                <td>{{ patientappoint.doctor }}</td>
+                <td>{{ patientappoint.date }}</td>
+                <td>{{ patientappoint.time }} </td>
+                <td><a href = "{% url 'dent:detail' patientappoint.id %}">Detail</a></td>
+            </tr>
+            {% endif %}
+        </table>
+    </div>
+    <div class = 'appoint-item2 container container-relative'>
+        <h2>Appointment form</h2>
+        <form method = "POST" action = "">
+            {% csrf_token %}
+            {{ formset.management_form }}
+            {% for form in formset %}
+                {{ form }}
+                <button class="submit" type = 'submit'>Submit</button>
+            {% endfor %}
+        </form>
+    </div>
+    <div class = 'appoint-item3 container container-relative'>
+        <h2>Appointments filter</h2>
+        <form method = 'GET'>
+            <label for="id_doctor">Doctor</label>
+            {{ appointfilter.form.doctor }}
+            <label for="exact-date">Date</label>
+            {{ appointfilter.form.exact_date }}
+            <button type ="submit" class="submit">Search</button>
+        </form>
+        <table>
+            <tr>
+                <th>Doctor</th>
+                <th>Date</th>
+                <th>Time</th>
+            </tr>
+            {% for appointment in appointments %}
+            <tr>
+                <td>{{ appointment.doctor }}</td> 
+                <td>{{ appointment.date }}</td>
+                <td>{{ appointment.time }}</td>  
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

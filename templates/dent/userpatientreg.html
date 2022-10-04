@@ -1,0 +1,27 @@
+{% extends 'dent/main.html' %}
+{% load static %}
+{% block content %}		
+<div class="container container-middle">
+	<h3>REGISTER ACCOUNT</h3>
+	<form method="POST" action="">
+		{% csrf_token %}
+		{{ user_patient.first_name.label }} {{ user_patient.first_name }}
+		{{ user_patient.last_name.label }} {{ user_patient.last_name }}
+		{{ user_patient.username.label }} {{ user_patient.username }}
+		{{ user_patient.email.label }} {{ user_patient.email }}
+		{{ user_patient.password1.label }} {{user_patient.password1 }}
+		{{user_patient.password2.label }} {{ user_patient.password2 }}
+		<input class="submit" type="submit" value="Register Account">
+		Already have an account?<br>
+		<a href="{% url 'dent:login' %}"><button type="button" class="return">Log in</button></a>
+		{{ user_patient.errors }}
+	</form>
+</div>
+{% endblock %}
+		
+		
+		
+		
+		
+		
+		

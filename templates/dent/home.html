@@ -1,0 +1,38 @@
+{% extends 'dent/main.html' %}
+{% load static %}
+{% block content%}
+<div class = 'Mcontainer'>
+    <div class = "top-item">
+        {% if messages %}
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        {% endif %}
+        <h2> For your helthier smile </h2>
+    </div>
+    <div class = "middle-item">
+        <h2 class ='headline2'>Team</h2>
+        <form method = 'get' class="doctors">
+            {% for doc in form %}
+                <div class="doctor">
+                    <h4>{{ doc.field }}: {{ doc.title }}. {{ doc.fname }} {{ doc.sname }}</h4>
+                        {% if doc.profile_pic %}
+                            <a href ="{% url 'dent:staffdetail' doc.id %}">
+                                <img src = "{{ doc.profile_pic.url }}" height="400" width = '400'>
+                            </a>
+                        {% else %}
+                            <img src= "{% static 'images/doktor_default.png' %}" height="400" width = '400'>
+                        {% endif %}
+                    <br>
+                    <a href ="{% url 'dent:staffdetail' doc.id %}"><button type = 'button' class="submit submit-width">Profile</button></a>
+                </div>
+        {% endfor %}
+        </form>
+    </div>
+    <div class = "bottom-item">
+        <strong>Photo Gallery</strong>
+    </div>
+</div>
+            
+
+{% endblock %}

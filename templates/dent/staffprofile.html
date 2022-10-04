@@ -1,0 +1,38 @@
+{% extends 'dent/main.html' %}
+{% load static %}
+{% block content %}
+<div class="container container-middle">
+    <form method="POST" action="" id = 'staffform' enctype="multipart/form-data">
+        {% csrf_token %}
+        <div hidden>
+            <p><strong> User </strong></p>
+            <input type = 'text' name = 'user' value = '{{ user.id }}' readonly>
+        </div>
+        <div>
+            Title {{ profileform.title }} 
+        </div>
+        <div>
+            Firts name {{ profileform.fname }}
+        </div>
+        <div>
+            Last name {{ profileform.sname }} 
+        </div> 
+        <div>
+            {% if request.user.staff.profile_pic %}
+                {{ profileform.profile_pic }}
+                <img class="profile-pic" src="{{ request.user.staff.profile_pic.url }}" width ="350" height = "350">
+            {% else %}
+                {{ profileform.profile_pic }}
+                <img class="profile-pic" src="{% static 'images/doktor_default.png' %}" width ="350" height = "350">
+            {% endif %} 
+        </div>
+        <div>
+            Field {{ profileform.field }}
+        </div>
+        <div>
+            About {{ profileform.about }} 
+        </div>
+        <input type="submit" value = 'Register' class="submit">
+    </form>
+</div>
+{% endblock %}

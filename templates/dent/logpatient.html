@@ -1,0 +1,30 @@
+{% extends 'dent/main.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container container-middle">
+    <h2> Patient {{ request.user }}</h2>
+    <form method = "POST" action = "">
+        {% csrf_token %}
+        <p hidden>{{ patientform.user }} </p>
+
+        <label for="fname">First name</label>
+        {{ patientform.fname }}
+    
+        <label for="sname">Last Name</label>
+        {{ patientform.sname }}
+
+        <label for="insurance_c">Insurance</label>
+        {{ patientform.insurance_c }}
+
+        <label for="cell_phone_num">Phone number</label>
+        {{ patientform.cell_phone_num }}
+
+        <label for="email">Email</label>
+        {{ patientform.email }}
+
+        <button class="submit" type = 'submit'>Submit</button>
+    </form>
+</div>
+
+{% endblock %}

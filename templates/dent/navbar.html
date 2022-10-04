@@ -1,0 +1,55 @@
+{% load static %}
+<header>
+    <img src="{% static '/images/logo.jpg' %}" id = 'logo'>
+    <nav>
+        <ul id = "unorder-list-nav">
+            <li><a href = "{% url 'dent:home' %}">Home</a></li>
+            {% if request.user.is_anonymous %}
+                <li><a href = "{% url 'dent:unlogpatient' %}">Appointment</a></li>
+            {% endif %}
+            {% if request.user.is_anonymous %}
+                <li><a href = "{% url 'dent:login' %}">Login</a></li>
+            {% endif %}
+            {% if request.user.is_staff %}
+                {% if request.user.staff.id %}
+                    <li><a href = "{% url 'dent:staffdetail' request.user.staff.id %}">Profile</a></li>
+                {% else %}
+                    <li><a href = "{% url 'dent:staffdetail' request.user.id %}">Profile</a></li>
+                {% endif %}
+            {% endif %}
+            {% if request.user.is_authenticated and not request.user.is_staff  %}
+                {% if request.user.patient.id %}
+                    <li><a href = "{% url 'dent:logpatientappointment' request.user.patient.id %}"> Patient {{ request.user }}</a></li>
+                {% else %}
+                    <li><a href = "{% url 'dent:logpatientappointment' request.user.id %}"> Patient {{ request.user }}</a></li>
+                {% endif %}
+            {% endif %}
+
+            {% if request.user.is_staff %}
+                <li><a href = "{% url 'dent:listo' %}">Patients</a></li>
+            {% endif %}
+            {% if request.user.is_superuser %}
+                <li><a href = "{% url 'dent:staffreg' %}">Staff reg.</a></li>
+            {% endif %}
+            <li>
+                <form method = 'POST' action = "{% url 'dent:searchid' %}">
+                    {%  csrf_token %}
+                    <input type = 'number'
+                        aria-label="Search" 
+                        name="searched_id"
+                        required
+                        placeholder="Search the appointment"
+                        size = '40'>
+                    <button type = submit name = 'GO'>GO</button>
+                </form>
+            </li>
+            {% if request.user.is_authenticated %}
+                <li><a href = "{% url 'dent:logout' %}">logout {{ request.user }}</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+    <span id="toggle-nav" onclick="toggleNav()">
+        <i class="fa fa-bars"></i>
+    </span>
+</header>
+

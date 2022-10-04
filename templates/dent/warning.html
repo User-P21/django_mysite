@@ -1,0 +1,9 @@
+{% extends 'dent/main.html' %}
+{% block content %}
+<h2> {{ msg }}</h2>
+    {% if request.user.patient.id %}
+        <a href="{% url 'dent:logpatientappointment' request.user.patient.id  %}">Please, filter out the table with current appointments and try it again</a>
+    {% else %}
+        <a href="{% url 'dent:unlogpatient' %}">Please, filter out the table with current appointments and try it again</a>
+    {% endif %}
+{% endblock %}

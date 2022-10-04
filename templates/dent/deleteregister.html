@@ -1,0 +1,11 @@
+{% extends 'dent/main.html' %}
+{% block content %}
+<div class="container container-relative">
+    <p> Are you sure to delete your appointment with {{ deleteform.id }} id ?</p>
+    <form method = 'post' action = ''>
+        {% csrf_token %}
+        <input type = 'submit' value = 'Delete' class="delete">
+        <a href = "{{ request.META.HTTP_REFERER }}"><button type = 'button' class="return">Return</button></a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'dent/main.html' %}
+{% block content %}
+<h2>Create an Appointment</h2>
+<div class="container container-left">
+    <h2> Personal Information</h2>
+    <form method = 'post' action = ''>
+        {% csrf_token %}
+        <label for="fname">First name</label>
+        {{ patientform.fname }}
+
+        <label for="sname">Last name</label>
+        {{ patientform.sname }}
+
+        <label for="insurance_c">Insurance</label>
+        {{ patientform.insurance_c }}
+
+        <label for="cell_phone_num">Phone number</label>
+        {{ patientform.cell_phone_num}}
+
+        <label for="email">Email</label>
+        {{ patientform.email }}
+        <button class="submit" type = 'submit'>Next</button>
+    </form>
+</div>
+{% endblock %}
