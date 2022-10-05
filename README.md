@@ -1,4 +1,4 @@
-![a smiling teeth](static/images/logo.jpg)
+---![a smiling teeth](static/images/logo.jpg)
 
 
 # django_mysite
