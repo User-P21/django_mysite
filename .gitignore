@@ -3,3 +3,4 @@ venv/
 include/
 lib/
 .env
+db.sqlite3
