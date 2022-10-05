@@ -6,7 +6,7 @@
 
 ### Description
 This page could serve for:
-    -patients, to make an appointment, update it or delete,
-    -doctors, to see/filter a list of patient`s appointment/s.
+-patients, to make an appointment, update it or delete,
+-doctors, to see/filter a list of patient`s appointment/s.
 
 This project is focused mainly on the utilization of Django basics.
