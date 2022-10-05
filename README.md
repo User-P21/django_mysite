@@ -1,4 +1,7 @@
-<center>![a smiling teeth](static/images/logo.jpg)</center>
+<p align="center">
+  <img src="static/images/logo.jpg" alt="a smiling teeth"/>
+</p>
+
 
 
 # django_mysite
