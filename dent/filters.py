@@ -60,3 +60,12 @@ class AppointmentFilter(django_filters.FilterSet):
         fields = []
         fields = '__all__'
         # widgets ={'doctor':forms.Select(attrs = {'class':'text-input'})}
+
+
+#### APPOINTMENTS FILTERING ####
+def filter(request):
+    appointments = Appointment.objects.all()
+    appointfilter = AppointmentFilter(request.GET, queryset=appointments)
+    appointments = appointfilter.qs
+    filter_list = [appointments, appointfilter, appointments]
+    return filter_list

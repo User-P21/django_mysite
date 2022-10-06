@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.shortcuts import redirect
 
 
 class Staff(models.Model):
@@ -54,9 +55,27 @@ class Patient(models.Model):
 class Appointment(models.Model):
     patient = models.ForeignKey('Patient', on_delete= models.CASCADE)
     doctor = models.ForeignKey('Staff', on_delete = models.CASCADE)
+    key = models.CharField(max_length = 15, null = True)
     date = models.DateField(auto_now_add= False)
     time = models.TimeField(auto_now_add=False)
     notes = models.TextField(null=True, blank = True)
+
+#### CHECK FOR EXISTING APPOINTMENT FOR THE GIVEN DOCTOR, DATE, TIME ####
+def appointmentcheck():
+    new_appointment = Appointment.objects.last()
+    n = 0
+    dict_new_appointment = {
+        'doctor': new_appointment.doctor.id,
+        'date': new_appointment.date,
+        'time': new_appointment.time}
+    for appoint in Appointment.objects.values('doctor','date','time'):
+        if dict_new_appointment == appoint:
+            n += 1
+    if n >= 2:
+        new_appointment.delete()
+        return redirect('dent:warning')
+    else: 
+        return redirect('dent:detail', new_appointment.id )
 
 
 

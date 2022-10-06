@@ -22,4 +22,4 @@ This project is focused mainly on the utilization of Django basics.
 - A patient can make an appointment with or without registration
 - Appointment collision checker compares the particular appointment with the appointments in the database. If the checker finds a sameness, it automatically deletes the current appointment and allows to patient to create a new one.
 - The appointment could be updated or deleted
-- Logged in user has the ability to see his/her appointments on the profile page
+- Logged in user can see his/her appointments on the profile page

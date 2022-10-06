@@ -15,40 +15,11 @@ from django.forms import inlineformset_factory
 
 from dent.decorators import unauthenticated_user
 
-from .models import Patient, Staff, Appointment
+from .models import Patient, Staff, Appointment, appointmentcheck
 from .forms import AppointmentForm, CreateUserForm, PatientForm, StaffForm, HOUR_CHOICES
-from .filters import AppointmentFilter
+from .filters import filter
 from .decorators import unauthenticated_user, allowed_users
 
-
-#### APPOINTMENTS FILTERING ####
-def filter(request):
-    appointments = Appointment.objects.all()
-    appointfilter = AppointmentFilter(request.GET, queryset=appointments)
-    appointments = appointfilter.qs
-    filter_list = [appointments, appointfilter, appointments]
-    return filter_list
-
-
-#### CHECK FOR EXISTING APPOINTMENT FOR THE GIVEN DOCTOR, DATE, TIME ####
-def appointmentcheck():
-    new_appointment = Appointment.objects.last()
-    n = 0
-    dict_new_appointment = {
-        'doctor': new_appointment.doctor.id,
-        'date': new_appointment.date,
-        'time': new_appointment.time}
-    for appoint in Appointment.objects.values('doctor','date','time'):
-        if dict_new_appointment == appoint:
-            n += 1
-    if n >= 2:
-        new_appointment.delete()
-        return redirect('dent:warning')
-    else: 
-        return redirect('dent:detail', new_appointment.id )
-
-
-#### VIEWS  ####
 
 #### HOME PAGE ####
 def home(request):
