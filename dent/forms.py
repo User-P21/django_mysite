@@ -66,7 +66,8 @@ class PatientForm(ModelForm):
             'cell_phone_num':forms.NumberInput(attrs={
                 'id':'cell_phone_num'}),
             'email':forms.EmailInput(attrs={
-                'id':'email'}),
+                'id':'email',
+                'placeholder':'We send there the Registration Key '}),
          }
     def __init__(self, *args, **kwargs):
         super().__init__(*args,**kwargs)
@@ -80,6 +81,7 @@ class AppointmentForm(ModelForm):
         model = Appointment
         fields = '__all__'
         widgets = {
+            'key':forms.TextInput(attrs = {'class':'text-input', 'readonly':''}),
             'doctor':forms.Select(attrs = {'class':'text-input'}),
             'date':forms.DateInput(attrs={'type':'date','class':'text-input'}),
             'time':forms.Select(choices=HOUR_CHOICES,attrs={'class':'text-input'}),

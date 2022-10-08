@@ -19,6 +19,9 @@
         Date {{ updateappform.date}}
         Time {{ updateappform.time }}
         Notes {{ updateappform.notes }}
+        <div hidden>
+            {{ updateappform.key}}
+        </div>
         <input type = 'submit' value = 'Update' class="submit">
         <input type = 'button' class="return"
                 onclick="location.href='http://127.0.0.1:8000/'; return false;"

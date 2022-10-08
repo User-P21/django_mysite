@@ -20,7 +20,6 @@
 
         <label for="email">Email</label>
         {{ patientform.email }}
-
       
     </form>
 </div>
@@ -42,6 +41,9 @@
 
         <label for="notes">Notes</label>
         {{ appointform.notes }}
+
+        <label for="key">Registration Key</label>
+        {{ appointform.key }}
 
         <button class="submit" type = 'submit'>Submit</button>
         <a href = "{% url 'dent:unlogpatient' %}">

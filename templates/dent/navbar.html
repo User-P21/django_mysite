@@ -34,9 +34,9 @@
             <li>
                 <form method = 'POST' action = "{% url 'dent:searchid' %}">
                     {%  csrf_token %}
-                    <input type = 'number'
+                    <input type = 'text'
                         aria-label="Search" 
-                        name="searched_id"
+                        name="searched_key"
                         required
                         placeholder="Search the appointment"
                         size = '40'>

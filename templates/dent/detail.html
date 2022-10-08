@@ -1,7 +1,7 @@
 {% extends 'dent/main.html' %}
 {% block content %}
 <div class="container container-relative">
-    <h2> Appointment: {{ appointment.id }}</h2>
+    <h3> Appointment: {{ appointment.key }}</h3>
         {% if message %}
             <p>{{ message }}</p>
         {% endif %}
@@ -13,7 +13,7 @@
         <li> Doctor: {{ appointment.doctor }}</li>
         <li> Date: {{ appointment.date }}</li>
         <li> Time: {{ appointment.time }}</li>
-        <li> Extra notes: {{ appointment.notes}}</li>
+        <li> Extra notes: {{ appointment.notes }}</li>
     </ul>
     <a href = "{% url 'dent:updateregview' appointment.id %}"><button type = 'button' class="submit">Update</button></a>
     <a href = "{% url 'dent:deleteregistration' appointment.id %}"><button type = 'button' class="delete">Delete</button></a>

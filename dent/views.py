@@ -15,7 +15,7 @@ from django.forms import inlineformset_factory
 
 from dent.decorators import unauthenticated_user
 
-from .models import Patient, Staff, Appointment, appointmentcheck
+from .models import Patient, Staff, Appointment, appointmentcheck, keygen
 from .forms import AppointmentForm, CreateUserForm, PatientForm, StaffForm, HOUR_CHOICES
 from .filters import filter
 from .decorators import unauthenticated_user, allowed_users
@@ -86,9 +86,10 @@ def logpatientappointmentview(request,pk):
     '''
     try:
         logpatient = Patient.objects.get(id = pk)
+        key = keygen()
         PatientFormSet = inlineformset_factory(
             Patient, Appointment, 
-            fields = ('patient','doctor', 'date', 'time','notes'),
+            fields = ('patient','doctor', 'date', 'time','notes','key'),
             extra = 1,
             widgets = {
                 'doctor':forms.Select(attrs = {'class':'text-input'}),
@@ -96,10 +97,11 @@ def logpatientappointmentview(request,pk):
                 'time':forms.Select(
                     attrs = {'class':'text-input'},
                     choices = HOUR_CHOICES),
-                'notes':forms.Textarea(attrs = {'class':'textarea-input'})},
+                'notes':forms.Textarea(attrs = {'class':'textarea-input'}),
+                'key':forms.TextInput(attrs = {'class':'text-input', 'value': key})},
             can_delete=False)
-        formset = PatientFormSet(instance = logpatient, queryset = Appointment.objects.none())
         filter_list = filter(request)
+        formset = PatientFormSet(instance = logpatient, queryset = Appointment.objects.none())
         if request.method == "POST":
             formset = PatientFormSet(request.POST, instance = logpatient)
             if formset.is_valid():
@@ -226,13 +228,13 @@ def unlogpatientview(request):
 
 def appointmentview(request,pk):
     ''' Appointment of patient without registration '''
-    unlogpatient = Patient.objects.get(id=pk)
-    patientform = PatientForm(instance=unlogpatient)
-    appointform = AppointmentForm(initial= {'patient':unlogpatient})
+    unlogpatient = Patient.objects.get(id = pk)
+    patientform = PatientForm(instance = unlogpatient)
+    key = keygen()
+    appointform = AppointmentForm(initial = {'key':key, 'patient':unlogpatient})
     filter_list = filter(request)
     if request.method == 'POST':
         appointform = AppointmentForm(request.POST)
-        print('appointform:',appointform)
         if appointform.is_valid():
             appointform.save()
             return appointmentcheck()
@@ -398,14 +400,14 @@ def logoutpage(request):
 
 ###### SEARCH THE APPOINTMET ######
 def searchid(request):
-    ''' The appointment is searched accoding it`s id'''
+    ''' The appointment is searched accoding it`s Registration Key'''
     if request.method == 'POST':
         try:
-            searched_id = request.POST['searched_id']
-            searched_appointmnet = Appointment.objects.get(id = searched_id)
+            searched_key = request.POST['searched_key']
+            searched_appointmnet = Appointment.objects.get(key = searched_key)
             return redirect('dent:detail', pk = searched_appointmnet.id)
         except exceptions.ObjectDoesNotExist:
             ctx = {
                 'a':'The appointment does not exist with',
-                'searched_id': searched_id}
+                'searched_key': searched_key}
             return render(request, 'dent/search.html', ctx)

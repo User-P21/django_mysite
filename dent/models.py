@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
+import string
+import random
 
 
 class Staff(models.Model):
@@ -76,6 +78,12 @@ def appointmentcheck():
         return redirect('dent:warning')
     else: 
         return redirect('dent:detail', new_appointment.id )
+        
+
+def keygen(length = 10, code = string.ascii_uppercase + string.digits):
+    key = ''.join(random.choice(code) for _ in range(length))
+    return key
+
 
 
 
