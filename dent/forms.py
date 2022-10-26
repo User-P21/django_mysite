@@ -81,7 +81,7 @@ class AppointmentForm(ModelForm):
         model = Appointment
         fields = '__all__'
         widgets = {
-            'key':forms.TextInput(attrs = {'class':'text-input', 'readonly':''}),
+            'key':forms.TextInput(attrs = {'class':'text-input', 'readonly':'', 'type':'hidden'}),
             'doctor':forms.Select(attrs = {'class':'text-input'}),
             'date':forms.DateInput(attrs={'type':'date','class':'text-input'}),
             'time':forms.Select(choices=HOUR_CHOICES,attrs={'class':'text-input'}),

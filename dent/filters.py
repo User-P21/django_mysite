@@ -11,6 +11,7 @@ class AppointmentFilter(django_filters.FilterSet):
         lookup_expr= 'icontains', 
         label = 'Date',
         widget=widgets.DateInput(attrs={
+            'type':'date',
             'placeholder': 'MM-DD or MM or DD',
             'id':'datefilter',
             'class':'filteritem',
@@ -63,8 +64,8 @@ class AppointmentFilter(django_filters.FilterSet):
 
 
 #### APPOINTMENTS FILTERING ####
-def filter(request):
-    appointments = Appointment.objects.all()
+def filter(request,appointments):
+    appointments = appointments
     appointfilter = AppointmentFilter(request.GET, queryset=appointments)
     appointments = appointfilter.qs
     filter_list = [appointments, appointfilter, appointments]

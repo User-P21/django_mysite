@@ -1,10 +1,18 @@
 {% extends 'dent/main.html' %}
 {% block content %}
 <div class="container container-relative">
-    <h3> Appointment: {{ appointment.key }}</h3>
+    <h3> Registration key of your appointment: {{ appointment.key }}</h3>
         {% if message %}
             <p>{{ message }}</p>
         {% endif %}
+    {% if appointment.patient.email %}
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" class="submit">
+                Send me the appointment details on: {{ appointment.patient.email }}
+            </button>
+        </form>
+    {% endif %}
     <ul>
         <li> First name: {{ appointment.patient.fname }}</li>
         <li> Last name: {{ appointment.patient.sname }}</li>

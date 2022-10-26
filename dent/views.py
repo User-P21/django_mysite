@@ -8,17 +8,17 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm ### Login form
 from django.core import exceptions
-from django.core.mail import send_mail
-from django.conf import settings
 from django import forms
 from django.forms import inlineformset_factory
 
 from dent.decorators import unauthenticated_user
 
-from .models import Patient, Staff, Appointment, appointmentcheck, keygen
+from .models import Patient, Staff, Appointment, appointmentcheck, keygen, sendemail
 from .forms import AppointmentForm, CreateUserForm, PatientForm, StaffForm, HOUR_CHOICES
 from .filters import filter
 from .decorators import unauthenticated_user, allowed_users
+
+from datetime import datetime
 
 
 #### HOME PAGE ####
@@ -98,9 +98,9 @@ def logpatientappointmentview(request,pk):
                     attrs = {'class':'text-input'},
                     choices = HOUR_CHOICES),
                 'notes':forms.Textarea(attrs = {'class':'textarea-input'}),
-                'key':forms.TextInput(attrs = {'class':'text-input', 'value': key})},
+                'key':forms.TextInput(attrs = {'class':'text-input', 'value': key, "type":"hidden"})},
             can_delete=False)
-        filter_list = filter(request)
+        filter_list = filter(request,appointments = Appointment.objects.exclude(date__lt = datetime.today()))
         formset = PatientFormSet(instance = logpatient, queryset = Appointment.objects.none())
         if request.method == "POST":
             formset = PatientFormSet(request.POST, instance = logpatient)
@@ -204,7 +204,7 @@ def listview(request):
         -contains patients personal info too
         -can be filtred by patient`s last name, given doctor or appointment date
     '''
-    filter_list = filter(request)
+    filter_list = filter(request,appointments = Appointment.objects.all())
     ctx = {
         'appointments':filter_list[2],
         'appointfilter':filter_list[1]}
@@ -232,7 +232,7 @@ def appointmentview(request,pk):
     patientform = PatientForm(instance = unlogpatient)
     key = keygen()
     appointform = AppointmentForm(initial = {'key':key, 'patient':unlogpatient})
-    filter_list = filter(request)
+    filter_list = filter(request,appointments = Appointment.objects.exclude(date__lt = datetime.today()))
     if request.method == 'POST':
         appointform = AppointmentForm(request.POST)
         if appointform.is_valid():
@@ -251,19 +251,10 @@ def detail(request, pk):
     msg = request.session.get('msg',False)
     if (msg):
         del(request.session['msg'])
-    msg = 'Successful registration'
-    request.session['msg'] = msg
+    # msg = 'Successful registration'
     appointment = Appointment.objects.get(id=pk)
-    # if patient.email:
-    #     subject = "Hello from Zubkdent"
-    #     message = f"Your registration key is = {patient.id}"
-    #     send_mail(
-    #         subject,
-    #         message,
-    #         settings.EMAIL_HOST_USER,
-    #         [patient.email],
-    #         fail_silently= False,
-    #     )
+    sendemail(request,appointment)
+    request.session['msg'] = msg
     ctx = {
         'appointment':appointment,
             'message':msg}

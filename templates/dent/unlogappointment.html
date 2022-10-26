@@ -23,7 +23,7 @@
       
     </form>
 </div>
-<div class="container container-middle">
+<div class="container container-right">
     <h2> Appointment form </h2>
     <form method = 'post' action = ''>
         {% csrf_token %}
@@ -42,7 +42,7 @@
         <label for="notes">Notes</label>
         {{ appointform.notes }}
 
-        <label for="key">Registration Key</label>
+        <label hidden for="key">Registration Key</label>
         {{ appointform.key }}
 
         <button class="submit" type = 'submit'>Submit</button>
@@ -51,7 +51,8 @@
         </a>
     </form>
 </div>
-<div class = 'container container-right'>
+<div class = 'container container-middle'>
+    <h2> Filter of current appointments </h2>
     <form method = 'GET'>
         <label for="doctor">Doctor</label>
         {{ appointfilter.form.doctor }}

@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
+from django.core.mail import send_mail
+from django.conf import settings
 import string
 import random
 
@@ -62,6 +64,8 @@ class Appointment(models.Model):
     time = models.TimeField(auto_now_add=False)
     notes = models.TextField(null=True, blank = True)
 
+
+
 #### CHECK FOR EXISTING APPOINTMENT FOR THE GIVEN DOCTOR, DATE, TIME ####
 def appointmentcheck():
     new_appointment = Appointment.objects.last()
@@ -78,13 +82,29 @@ def appointmentcheck():
         return redirect('dent:warning')
     else: 
         return redirect('dent:detail', new_appointment.id )
-        
+
 
 def keygen(length = 10, code = string.ascii_uppercase + string.digits):
     key = ''.join(random.choice(code) for _ in range(length))
     return key
 
 
+def sendemail(request, appointment):
+    if request.method =="POST":
+        if appointment.patient.email:
+            subject = "Hello from 987dent"
+            message = f"Your registration key is = {appointment.key}"
+            send_mail(
+                subject,
+                message,
+                settings.EMAIL_HOST_USER,
+                [appointment.patient.email],
+                fail_silently= False,
+            )
+            msg = f'The email with appointment details was sent to: {appointment.patient.email}'
+            return msg
+
+    
 
 
 
